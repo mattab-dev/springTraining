@@ -47,4 +47,10 @@ public class TrainingController {
         return trainingRepository.findByActivityType(activityType).stream().map(trainingMapper::toTraining).collect(toList());
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<TrainingTO> updateTraining(@RequestBody TrainingTO trainingTO) {
+        trainingRepository.save(trainingMapper.toEntityUpdate(trainingTO));
+        return ResponseEntity.ok().body(trainingTO);
+    }
+
 }

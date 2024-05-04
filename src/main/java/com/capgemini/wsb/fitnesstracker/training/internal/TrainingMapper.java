@@ -31,4 +31,14 @@ public class TrainingMapper {
         trainingTO.getDistance(),
         trainingTO.getAverageSpeed());
     }
+
+    Training toEntityUpdate(TrainingTO trainingTO) {
+        return new Training(trainingTO.getId(),
+                userMapper.toEntitySave(trainingTO.getUser()),
+                trainingTO.getStartTime(),
+                trainingTO.getEndTime(),
+                trainingTO.getActivityType(),
+                trainingTO.getDistance(),
+                trainingTO.getAverageSpeed());
+    }
 }
