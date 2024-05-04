@@ -1,12 +1,20 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -17,22 +25,46 @@ class UserController {
 
     private final UserMapper userMapper;
 
-    @GetMapping
-    public List<UserDto> getAllUsers() {
-        return userService.findAllUsers()
+    @GetMapping("/getAll")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        return ok(userService.findAllUsers()
                           .stream()
                           .map(userMapper::toDto)
-                          .toList();
+                          .toList());
     }
 
-    @PostMapping
-    public User addUser(@RequestBody UserDto userDto) {
+    @GetMapping("/getAllDetails")
+    public ResponseEntity<List<UserDetailsDto>> getAllUsersDetails() {
+        return ok(userService.findAllUsers()
+                .stream()
+                .map(userMapper::toUserDetailsDto)
+                .toList());
+    }
 
-        // Demonstracja how to use @RequestBody
-        System.out.println("User with e-mail: " + userDto.email() + "passed to the request");
+    @GetMapping("/getById")
+    public ResponseEntity<UserDto> getUser(@RequestBody Long userId) {
+        final Optional<User> optionalUser = userService.getUser(userId);
+        if(optionalUser.isEmpty()) {
+            throw new UserNotFoundException(userId);
+        }
+        return ok(userMapper.toDto(optionalUser.get()));
+    }
 
-        // TODO: saveUser with Service and return User
-        return null;
+    @GetMapping("/getByEmail")
+    public ResponseEntity<List<User>> getByEmail(@RequestBody String email) {
+
+        return ok(null);
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<User> addUser(@RequestBody UserDto userDto) {
+        return new ResponseEntity(userService.createUser(userMapper.toEntity(userDto)), CREATED);
+    }
+
+    @PutMapping("/delete")
+    public ResponseEntity<Long> deleteUser(@RequestBody Long userId) {
+        userService.deleteUser(userId);
+        return new ResponseEntity<>(userId, NO_CONTENT);
     }
 
 }
