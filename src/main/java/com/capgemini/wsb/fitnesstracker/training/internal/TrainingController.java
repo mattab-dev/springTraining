@@ -42,4 +42,9 @@ public class TrainingController {
     public List<TrainingTO> getTrainingsForUser(@PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") final Date endDate) {
         return trainingRepository.findByEndTimeAfter(endDate).stream().map(trainingMapper::toTraining).collect(toList());
     }
+    @GetMapping("/type/{activityType}")
+    public List<TrainingTO> getTrainingsForActivityType(@PathVariable("activityType") final ActivityType activityType) {
+        return trainingRepository.findByActivityType(activityType).stream().map(trainingMapper::toTraining).collect(toList());
+    }
+
 }
