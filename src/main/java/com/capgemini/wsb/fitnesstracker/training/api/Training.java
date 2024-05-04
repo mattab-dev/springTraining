@@ -7,8 +7,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
 import java.util.Date;
+
+import static org.hibernate.annotations.CascadeType.MERGE;
+import static org.hibernate.annotations.CascadeType.PERSIST;
+
 @Entity
 @Table(name = "trainings")
 @Getter
@@ -22,6 +27,7 @@ public class Training {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @Cascade(MERGE)
     private User user;
 
     @Column(name = "start_time", nullable = false)

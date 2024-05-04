@@ -19,6 +19,4 @@ public class TrainingTO {
     private ActivityType activityType;
     private double distance;
     private double averageSpeed;
-
-
 }
