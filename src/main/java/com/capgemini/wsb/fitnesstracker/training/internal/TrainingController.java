@@ -30,4 +30,9 @@ public class TrainingController {
         trainingTO.setId(training.getId());
         return ResponseEntity.ok().body(trainingTO);
     }
+
+    @GetMapping("/{userId}")
+    public List<TrainingTO> getTrainingsForUser(@PathVariable("userId") final Long userId) {
+        return trainingRepository.findByUserId(userId).stream().map(trainingMapper::toTraining).collect(toList());
+    }
 }
