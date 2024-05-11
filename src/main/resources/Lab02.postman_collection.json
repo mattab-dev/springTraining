@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "f49c7e3a-3bae-43c2-8411-2d653d02a591",
+		"name": "Lab02",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all trainings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/training",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"training"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new training",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": {\n        \"Id\": 1,\n        \"firstName\": \"Emma\",\n        \"lastName\": \"Johnson\",\n        \"birthdate\": \"1996-05-04\",\n        \"email\": \"Emma.Johnson@domain.com\"\n    },\n    \"startTime\": \"2024-05-04\",\n    \"endTime\": \"2024-05-04\",\n    \"activityType\": \"WALKING\",\n    \"distance\": 10.1,\n    \"averageSpeed\": 0.7\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/training/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"training",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get trainings for user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/training/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"training",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get trainings for after enddate",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"endDate\" : \"2024-03-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/training/endDate/2024-01-14",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"training",
+						"endDate",
+						"2024-01-14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get trainings by activity type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/training/type/RUNNING",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"training",
+						"type",
+						"RUNNING"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
