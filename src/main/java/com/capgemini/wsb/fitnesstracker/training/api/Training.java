@@ -45,6 +45,14 @@ public class Training {
     @Column(name = "average_speed")
     private double averageSpeed;
 
+    public Training(Date startTime, Date endTime, ActivityType activityType, double distance, double averageSpeed) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.activityType = activityType;
+        this.distance = distance;
+        this.averageSpeed = averageSpeed;
+    }
+
     public Training(
             final User user,
             final Date startTime,

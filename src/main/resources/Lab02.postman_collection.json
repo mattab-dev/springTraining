@@ -11,14 +11,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/v1/training",
+					"raw": "localhost:8080/v1/trainings",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"v1",
-						"training"
+						"trainings"
 					]
 				}
 			},
@@ -31,7 +31,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"user\": {\n        \"Id\": 1,\n        \"firstName\": \"Emma\",\n        \"lastName\": \"Johnson\",\n        \"birthdate\": \"1996-05-04\",\n        \"email\": \"Emma.Johnson@domain.com\"\n    },\n    \"startTime\": \"2024-05-04\",\n    \"endTime\": \"2024-05-04\",\n    \"activityType\": \"WALKING\",\n    \"distance\": 10.1,\n    \"averageSpeed\": 0.7\n}",
+					"raw": "{\n    \"userId\" : 1,\n    \"startTime\": \"2024-05-04\",\n    \"endTime\": \"2024-05-04\",\n    \"activityType\": \"WALKING\",\n    \"distance\": 10.1,\n    \"averageSpeed\": 0.7\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -39,15 +39,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/training/add",
+					"raw": "localhost:8080/v1/trainings",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"v1",
-						"training",
-						"add"
+						"trainings"
 					]
 				}
 			},
@@ -59,14 +58,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/v1/training/1",
+					"raw": "localhost:8080/v1/trainings/1",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"v1",
-						"training",
+						"trainings",
 						"1"
 					]
 				}
@@ -91,15 +90,15 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/v1/training/endDate/2024-01-14",
+					"raw": "localhost:8080/v1/trainings/finished/2024-01-14",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"v1",
-						"training",
-						"endDate",
+						"trainings",
+						"finished",
 						"2024-01-14"
 					]
 				}
@@ -112,16 +111,21 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/v1/training/type/RUNNING",
+					"raw": "localhost:8080/v1/trainings/activityType?activityType=RUNNING",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"v1",
-						"training",
-						"type",
-						"RUNNING"
+						"trainings",
+						"activityType"
+					],
+					"query": [
+						{
+							"key": "activityType",
+							"value": "RUNNING"
+						}
 					]
 				}
 			},

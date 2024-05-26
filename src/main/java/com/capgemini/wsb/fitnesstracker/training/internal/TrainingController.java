@@ -1,18 +1,18 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
+import com.capgemini.wsb.fitnesstracker.training.api.NewTrainingTO;
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/v1/trainings")
@@ -21,16 +21,17 @@ public class TrainingController {
     private final TrainingProvider trainingProvider;
     private final TrainingMapper trainingMapper;
     private final TrainingRepository trainingRepository;
+    private final TrainingServiceImpl trainingService;
     @GetMapping
     public List<TrainingTO> getTrainings() {
         return trainingProvider.getTrainings().stream().map(trainingMapper::toTraining).collect(toList());
     }
 
     @PostMapping()
-    public ResponseEntity<TrainingTO> addTraining(@RequestBody TrainingTO trainingTO) {
-        final Training training = trainingRepository.save(trainingMapper.toEntity(trainingTO));
-        trainingTO.setId(training.getId());
-        return ResponseEntity.ok().body(trainingTO);
+    @ResponseStatus(CREATED)
+    public TrainingTO addTraining(@RequestBody NewTrainingTO trainingTO) {
+        final Training savedEntity = trainingService.processTrainingEntity(trainingTO);
+        return trainingMapper.toTraining(savedEntity);
     }
 
     @GetMapping("/{userId}")
@@ -48,11 +49,11 @@ public class TrainingController {
     }
 
     @PutMapping("/{trainingId}")
-    public ResponseEntity<TrainingTO> updateTraining(@RequestParam Long trainingId, @RequestBody TrainingTO trainingTO) {
+    public TrainingTO updateTraining(@PathVariable Long trainingId, @RequestBody NewTrainingTO trainingTO) {
         Training mappedEntity = trainingMapper.toEntityUpdate(trainingTO);
         mappedEntity.setId(trainingId);
         trainingRepository.save(mappedEntity);
-        return ResponseEntity.ok().body(trainingTO);
+        return trainingMapper.toTraining(mappedEntity);
     }
 
 }
