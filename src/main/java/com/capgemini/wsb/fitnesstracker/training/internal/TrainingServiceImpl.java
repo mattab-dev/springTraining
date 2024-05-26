@@ -28,6 +28,11 @@ public class TrainingServiceImpl implements TrainingProvider {
         return trainingRepository.findAll();
     }
 
+    @Override
+    public List<Training> findAllForUserId(Long userId) {
+        return trainingRepository.findByUserId(userId);
+    }
+
     public Training processTrainingEntity(final NewTrainingTO trainingTO) {
         final User linkedUser = userProvider.getUser(trainingTO.getUserId()).get();
         final Training mappedTraining = trainingMapper.toEntity(trainingTO);
