@@ -41,13 +41,12 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.findByEmail(email);
     }
 
-    public List<User> getUsersOlderThanProvided(final int age) {
-        final int currentYear = now().getYear();
+    public List<User> getUsersOlderThanProvided(final LocalDate time) {
         final List<User> olderUsers = new ArrayList<>();
         final List<User> allUsers = userRepository.findAll();
         if(!allUsers.isEmpty()) {
             allUsers.forEach(user -> {
-                if(currentYear - user.getBirthdate().getYear() > age) {
+                if(user.getBirthdate().isBefore(time)) {
                     olderUsers.add(user);
                 }
             });
@@ -66,7 +65,8 @@ class UserServiceImpl implements UserService, UserProvider {
     }
 
     @Override
-    public User updateUser(User user) {
+    public User updateUser(Long userId, User user) {
+        user.setId(userId);
         return userRepository.save(user);
     }
 }

@@ -5,5 +5,5 @@ import jakarta.annotation.Nullable;
 
 import java.time.LocalDate;
 
-public record UserDetailsDto(@Nullable Long Id, String firstName, String lastName) {
+public record UserDetailsDto(@Nullable Long id, String firstName, String lastName) {
 }

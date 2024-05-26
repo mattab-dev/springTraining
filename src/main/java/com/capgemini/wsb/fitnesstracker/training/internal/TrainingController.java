@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 @RestController
-@RequestMapping("/v1/training")
+@RequestMapping("/v1/trainings")
 @RequiredArgsConstructor
 public class TrainingController {
     private final TrainingProvider trainingProvider;
@@ -26,7 +26,7 @@ public class TrainingController {
         return trainingProvider.getTrainings().stream().map(trainingMapper::toTraining).collect(toList());
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<TrainingTO> addTraining(@RequestBody TrainingTO trainingTO) {
         final Training training = trainingRepository.save(trainingMapper.toEntity(trainingTO));
         trainingTO.setId(training.getId());
@@ -38,18 +38,20 @@ public class TrainingController {
         return trainingRepository.findByUserId(userId).stream().map(trainingMapper::toTraining).collect(toList());
     }
 
-    @GetMapping("/endDate/{endDate}")
-    public List<TrainingTO> getTrainingsForUser(@PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") final Date endDate) {
+    @GetMapping("/finished/{afterTime}")
+    public List<TrainingTO> getTrainingsForUser(@PathVariable("afterTime") @DateTimeFormat(pattern = "yyyy-MM-dd") final Date endDate) {
         return trainingRepository.findByEndTimeAfter(endDate).stream().map(trainingMapper::toTraining).collect(toList());
     }
-    @GetMapping("/type/{activityType}")
-    public List<TrainingTO> getTrainingsForActivityType(@PathVariable("activityType") final ActivityType activityType) {
+    @GetMapping("/activityType")
+    public List<TrainingTO> getTrainingsForActivityType(@RequestParam("activityType") final ActivityType activityType) {
         return trainingRepository.findByActivityType(activityType).stream().map(trainingMapper::toTraining).collect(toList());
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<TrainingTO> updateTraining(@RequestBody TrainingTO trainingTO) {
-        trainingRepository.save(trainingMapper.toEntityUpdate(trainingTO));
+    @PutMapping("/{trainingId}")
+    public ResponseEntity<TrainingTO> updateTraining(@RequestParam Long trainingId, @RequestBody TrainingTO trainingTO) {
+        Training mappedEntity = trainingMapper.toEntityUpdate(trainingTO);
+        mappedEntity.setId(trainingId);
+        trainingRepository.save(mappedEntity);
         return ResponseEntity.ok().body(trainingTO);
     }
 

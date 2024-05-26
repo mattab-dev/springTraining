@@ -2,9 +2,11 @@ package com.capgemini.wsb.fitnesstracker.user.internal;
 
 import com.capgemini.wsb.fitnesstracker.user.api.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,7 +25,7 @@ class UserController {
 
     private final UserMapper userMapper;
 
-    @GetMapping("/getAll")
+    @GetMapping("/simple")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ok(userService.findAllUsers()
                           .stream()
@@ -31,15 +33,15 @@ class UserController {
                           .toList());
     }
 
-    @GetMapping("/getAllDetails")
-    public ResponseEntity<List<UserDetailsDto>> getAllUsersDetails() {
+    @GetMapping()
+    public ResponseEntity<List<UserDto>> getAllUsersDetails() {
         return ok(userService.findAllUsers()
                 .stream()
-                .map(userMapper::toUserDetailsDto)
+                .map(userMapper::toDto)
                 .toList());
     }
 
-    @GetMapping("/id/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {
         final Optional<User> optionalUser = userService.getUser(userId);
         if(optionalUser.isEmpty()) {
@@ -48,38 +50,39 @@ class UserController {
         return ok(userMapper.toDto(optionalUser.get()));
     }
 
-    @GetMapping("/email/{emailPart}")
-    public ResponseEntity<List<UserEmailDto>> getByEmail(@PathVariable String emailPart) {
-        final List<User> userByEmail = userService.getUserByEmail(emailPart);
+    @GetMapping("/email")
+    public List<UserEmailDto> getByEmail(@RequestParam String email) {
+        final List<User> userByEmail = userService.getUserByEmail(email);
         if(userByEmail.isEmpty()) {
-            throw new UserNotFoundException(emailPart);
+            throw new UserNotFoundException(email);
         }
-        return ok(userByEmail.stream().map(userMapper::toEmailDto).collect(toList()));
+        return userByEmail.stream().map(userMapper::toEmailDto).collect(toList());
     }
 
-    @PostMapping("/addUser")
+    @PostMapping()
     public ResponseEntity<User> addUser(@RequestBody UserDto userDto) {
         return new ResponseEntity<>(userService.createUser(userMapper.toEntity(userDto)), CREATED);
     }
 
-    @PutMapping("/delete/{userId}")
+    @ResponseStatus(NO_CONTENT)
+    @DeleteMapping("/{userId}")
     public ResponseEntity<Long> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return new ResponseEntity<>(userId, NO_CONTENT);
     }
 
-    @GetMapping("/age/{age}")
-    public ResponseEntity<List<UserDto>> getUsersOlderThanGivenAge(@PathVariable int age) {
-        final List<User> olderUsers = userService.getUsersOlderThanProvided(age);
+    @GetMapping("/older/{time}")
+    public ResponseEntity<List<UserDto>> getUsersOlderThanGivenAge(@PathVariable LocalDate time) {
+        final List<User> olderUsers = userService.getUsersOlderThanProvided(time);
         if(olderUsers.isEmpty()) {
-            throw new UserNotFoundException(valueOf(age));
+            throw new UserNotFoundException(valueOf(time));
         }
         return ok(olderUsers.stream().map(userMapper::toDto).collect(toList()));
     }
 
-    @PutMapping("/changeUser")
-    public ResponseEntity<User> updateUser(@RequestBody UserDto changedUser) {
-        return new ResponseEntity<>(userService.updateUser(userMapper.toEntitySave(changedUser)), ACCEPTED);
+    @PutMapping("/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody UserDto changedUser) {
+        return new ResponseEntity<>(userService.updateUser(userId, userMapper.toEntitySave(changedUser)), ACCEPTED);
     }
 
 }

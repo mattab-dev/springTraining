@@ -14,6 +14,7 @@ import static org.hibernate.annotations.CascadeType.PERSIST;
 @Entity
 @Table(name = "trainings")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
