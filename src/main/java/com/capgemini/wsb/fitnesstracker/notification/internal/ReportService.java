@@ -29,7 +29,7 @@ public class ReportService {
     private final UserProvider userProvider;
     private final TrainingProvider trainingProvider;
 
-   // @Scheduled(cron = "0 0 12 ? * 1")
+   // @Scheduled(cron = "0 0 12 ? * 1") this cron is for sending emails as given in instructions, for testing other cron is used
    @Scheduled(cron = "0 * * * * *")
     public void generateReport() {
         log.info("Starting generation of training reports");
