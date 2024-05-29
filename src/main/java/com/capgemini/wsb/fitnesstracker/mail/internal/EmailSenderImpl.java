@@ -17,7 +17,7 @@ class EmailSenderImpl implements EmailSender {
         final SimpleMailMessage simpleEmail = new SimpleMailMessage();
         simpleEmail.setTo(email.toAddress());
         simpleEmail.setSubject(email.subject());
-        simpleEmail.setText(email.toAddress());
+        simpleEmail.setText(email.content());
         javaMailSender.send(simpleEmail);
     }
 }

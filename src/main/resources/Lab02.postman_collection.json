@@ -1,15 +1,25 @@
 {
 	"info": {
-		"_postman_id": "f49c7e3a-3bae-43c2-8411-2d653d02a591",
+		"_postman_id": "5c767d47-7a4b-46ba-ac02-4c0eaaf52891",
 		"name": "Lab02",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10731582"
 	},
 	"item": [
 		{
-			"name": "Get all trainings",
+			"name": "Add new training",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\" : 1,\n    \"startTime\": \"2024-05-04\",\n    \"endTime\": \"2024-05-04\",\n    \"activityType\": \"WALKING\",\n    \"distance\": 10.1,\n    \"averageSpeed\": 0.7\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "localhost:8080/v1/trainings",
 					"host": [
@@ -25,19 +35,10 @@
 			"response": []
 		},
 		{
-			"name": "Add new training",
+			"name": "Get all trainings",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"userId\" : 1,\n    \"startTime\": \"2024-05-04\",\n    \"endTime\": \"2024-05-04\",\n    \"activityType\": \"WALKING\",\n    \"distance\": 10.1,\n    \"averageSpeed\": 0.7\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/v1/trainings",
 					"host": [
@@ -126,6 +127,35 @@
 							"key": "activityType",
 							"value": "RUNNING"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update training fields",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\" : 1,\r\n    \"startTime\": \"2024-05-04\",\r\n    \"endTime\": \"2024-05-04\",\r\n    \"activityType\": \"WALKING\",\r\n    \"distance\": 10.1,\r\n    \"averageSpeed\": 0.7\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/trainings/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"trainings",
+						"1"
 					]
 				}
 			},

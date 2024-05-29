@@ -25,15 +25,15 @@ import static java.util.Calendar.DAY_OF_MONTH;
 @Service
 @Data
 @Slf4j
-public class NotficationService {
+class NotficationService {
     private static final String TITLE = "Last week's training report";
     private final UserProvider userProvider;
     private final TrainingProvider trainingProvider;
     private final EmailProvider emailProvider;
     private final EmailSender emailSender;
 
-   // @Scheduled(cron = "0 0 12 ? * 1") this cron is for sending emails as given in instructions, for testing other cron is used
-   @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 12 ? * 1")// this cron is for sending emails as given in instructions, for testing other cron is used
+   //@Scheduled(cron = "0 * * * * *")
     public void generateReport() {
         log.info("Starting generation of training reports");
         final List<User> allUsers = userProvider.findAllUsers();
