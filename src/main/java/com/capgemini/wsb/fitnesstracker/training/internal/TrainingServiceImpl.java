@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TrainingServiceImpl implements TrainingProvider {
+class TrainingServiceImpl implements TrainingProvider {
     private final TrainingRepository trainingRepository;
     private final UserProvider userProvider;
     private final TrainingMapper trainingMapper;

@@ -1,5 +1,7 @@
 package com.capgemini.wsb.fitnesstracker.mail.api;
 
+import org.springframework.context.annotation.Profile;
+
 /**
  * API interface for component responsible for sending emails.
  */

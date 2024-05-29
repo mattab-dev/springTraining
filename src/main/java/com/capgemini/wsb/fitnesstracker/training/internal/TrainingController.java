@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/v1/trainings")
 @RequiredArgsConstructor
-public class TrainingController {
+class TrainingController {
     private final TrainingProvider trainingProvider;
     private final TrainingMapper trainingMapper;
     private final TrainingRepository trainingRepository;
