@@ -1,9 +1,6 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
-import com.capgemini.wsb.fitnesstracker.user.api.User;
-import com.capgemini.wsb.fitnesstracker.user.api.UserDto;
-import com.capgemini.wsb.fitnesstracker.user.api.UserEmailDto;
-import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
+import com.capgemini.wsb.fitnesstracker.user.api.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +24,10 @@ class UserController {
     private final UserMapper userMapper;
 
     @GetMapping("/simple")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserDetailsDto>> getAllUsers() {
         return ok(userService.findAllUsers()
                           .stream()
-                          .map(userMapper::toDto)
+                          .map(userMapper::toUserDetailsDto)
                           .toList());
     }
 
